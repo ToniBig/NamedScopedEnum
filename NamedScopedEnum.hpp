@@ -22,20 +22,23 @@
 #ifndef _NAMED_SCOPED_ENUM_HPP_
 #define _NAMED_SCOPED_ENUM_HPP_
 
+#include <array>
 #include <string>
 #include <iostream>
 #include <regex> // uses gcc compiler >= 4.9
 
 namespace detail {
 
-typedef std::vector<std::string> StringVector;
+template<size_t N>
+using StringArray = std::array<std::string,N>;
 
-inline StringVector tokenize( const std::string& parameters )
+template<size_t N>
+StringArray<N> tokenize( const std::string& parameters )
 {
   const std::regex re( "\\s*,\\s*" );
   std::sregex_token_iterator begin( parameters.begin( ), parameters.end( ), re, -1 );
-  std::sregex_token_iterator end;
-  StringVector tokens( begin, end );
+  StringArray<N> tokens;
+  std::copy_n( begin, N, tokens.begin( ) );
   return tokens;
 }
 
@@ -44,41 +47,44 @@ constexpr bool noCustomEnumerators( char const * str )
   return *str != '=' && ( *str == '\0' || noCustomEnumerators( str + 1 ) );
 }
 
-} // namespace utilities
+} // namespace detail
+
+#define NUMARGS(...)  (sizeof((const char*[]){__VA_ARGS__})/sizeof(int))
 
 #define NAMED_SCOPED_ENUM(ENUM_NAME, ...)\
 \
 static_assert( detail::noCustomEnumerators(#__VA_ARGS__),"Custom values for the enumerators are not supported!" );\
 \
-class ENUM_NAME{\
-public:\
+struct ENUM_NAME_HOLDER{\
   enum ENUMERATORS {__VA_ARGS__};\
-  \
-  ENUM_NAME( ENUMERATORS default_enumerator ):\
-    _name(names()[default_enumerator]),\
-    _enumerator(default_enumerator)\
-  {\
-  }\
   \
   static constexpr size_t size()\
   {\
     return std::tuple_size<decltype(std::make_tuple(__VA_ARGS__))>::value;\
   }\
+};\
+\
+class ENUM_NAME : public ENUM_NAME_HOLDER{\
+public:\
+  \
+  ENUM_NAME( ENUMERATORS default_enumerator ):\
+    _enumerator(default_enumerator)\
+  {\
+  }\
   \
   std::string name() const\
   {\
-    return _name;\
+    return names()[_enumerator];\
   }\
   \
-  ENUMERATORS enumerator() const\
+  const ENUMERATORS& enumerator() const\
   {\
     return _enumerator;\
   }\
   \
-  void set_enumerator( ENUMERATORS enumerator)\
+  ENUMERATORS& enumerator()\
   {\
-    _enumerator = enumerator;\
-    _name = names()[enumerator];\
+    return _enumerator;\
   }\
   \
   operator ENUMERATORS() const\
@@ -86,18 +92,18 @@ public:\
     return _enumerator;\
   }\
   \
-  operator std::string() const\
+  operator const std::string&() const\
   {\
-    return _name;\
+    return names()[_enumerator];\
   }\
   \
-  static detail::StringVector names()\
+  static const detail::StringArray<ENUM_NAME_HOLDER::size()>& names()\
   {\
-    return detail::tokenize(#__VA_ARGS__);\
+    static detail::StringArray<ENUM_NAME_HOLDER::size()> names = detail::tokenize<ENUM_NAME_HOLDER::size()>(#__VA_ARGS__);\
+    return names;\
   }\
   \
 private:\
-  std::string _name;\
   ENUMERATORS _enumerator;\
 }
 
