@@ -2,22 +2,21 @@
 Scoped C++ enumeration with string descriptors
 
 [![Build Status](https://travis-ci.org/HerrNilZon/NamedScopedEnum.svg?branch=master)](https://travis-ci.org/HerrNilZon/NamedScopedEnum)
-[![Version](https://img.shields.io/badge/c%2B%2B-11-blue.svg)](http://en.cppreference.com/w/cpp)
+[![Version](https://img.shields.io/badge/c%2B%2B-14-blue.svg)](http://en.cppreference.com/w/cpp)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://en.wikipedia.org/wiki/MIT_License)
 
 ## Features
 
-This library provides the `NAMED_SCOPED_ENUM` macro, which creates strongly typed (scoped) enumeration with the following features:
-* Similar behaviour to C++11's strongly typed (scoped) enumeration
-* Representation of current enumerator as std::string via member functions `std::string operator` and `name()`
+This library provides the `NAMED_SCOPED_ENUM` macro, which creates a strongly typed (scoped) enumeration with the following features:
+* The created types are scoped like C++11's enum classes, but convert to integral types automatically
+* Representation of current enumerator as std::string via member functions `operator std::string` and `name()`
 * List of enumerator names via __static__ member function `names()`
 * Size of enumeration, i.e. number of enumerators, via constexpr member function `size()`
+* The macro does not support custom values for the enumerators
 
 ## Usage
 
-An enumeration created using the `NAMED_SCOPED_ENUM` macro behaves just like a strongly typed (scoped) C++11 enumeration.
-Additionally, the size of the enumeration is available at compile time. Furthermore, the `std::string` representation of the
-current enumeration value as well as a vector of all names can be retrieved by special member functions.  
+To create an scoped enumeration, provide a named and enumerators for the enum to be created to the `NAMED_SCOPED_ENUM` macro. The created type provides the enumerators, the size of the enum and the individual names (std::string representations) of the enumerators. 
 
 ### An example
 

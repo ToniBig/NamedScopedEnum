@@ -32,12 +32,7 @@ PROJECT ( NamedScopedEnum CXX )
 #------------------------------------------------------------------------------
 OPTION ( NAMEDSCOPEDENUM_ENABLE_TESTING "Enable tests for NamedScopedEnum library" ON )
   
-SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11" )
-
-#------------------------------------------------------------------------------
-# INCLUDE DIRECTORY
-#------------------------------------------------------------------------------
-INCLUDE_DIRECTORIES ( . )	
+SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14" )
 
 #------------------------------------------------------------------------------
 # CREATE EXAMPLES

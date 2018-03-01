@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2016 Nils Zander, Tino Bog
+// Copyright (c) 2016-2018 Nils Zander, Tino Bog
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
 // this software and associated documentation files (the "Software"), to deal in
@@ -20,8 +20,8 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 // --- Internal Includes ---
-#include <NamedScopedEnum.hpp>
-#include <test/catch.hpp>
+#include "../named_scoped_enum.hpp"
+#include "catch.hpp"
 
 TEST_CASE( "Test conversion to names" )
 {
@@ -42,7 +42,6 @@ TEST_CASE( "Test set function" )
   color = Color::green;
   
   CHECK( color == Color::green );
-  
 }
 
 TEST_CASE( "Test size function" )
@@ -50,5 +49,4 @@ TEST_CASE( "Test size function" )
   NAMED_SCOPED_ENUM(Color, red, green, blue );
   
   CHECK( Color::size() == 3 );
-  
 }
