@@ -1,9 +1,10 @@
 # Named Scoped Enum
 Create scoped __enum__ providing __number__ and __string descriptors__ of all enumerators
 
-[![Build Status](https://travis-ci.org/ToniBig/NamedScopedEnum.svg?branch=master)](https://travis-ci.org/ToniBig/NamedScopedEnum)
 [![Version](https://img.shields.io/badge/c%2B%2B-14-blue.svg)](http://en.cppreference.com/w/cpp)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://en.wikipedia.org/wiki/MIT_License)
+[![Build Status](https://travis-ci.org/ToniBig/NamedScopedEnum.svg?branch=master)](https://travis-ci.org/ToniBig/NamedScopedEnum)
+[![Build status](https://ci.appveyor.com/api/projects/status/3ybtwektk15wwpfu?svg=true)](https://ci.appveyor.com/project/ToniBig/namedscopedenum)
 
 ## Features
 * __Single-header-only__ library providing the macro __`NAMED_SCOPED_ENUM`__
