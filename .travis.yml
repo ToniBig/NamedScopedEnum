@@ -23,6 +23,9 @@ script:
   - make 
   - make run_tests
 
+after_success:
+- coveralls --root . -E ".*CMakeFiles.*" 
+
 notifications:
   email:
     recipients:
