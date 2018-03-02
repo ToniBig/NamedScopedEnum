@@ -109,7 +109,8 @@ tokenizer<N, C> make_tokenizer( char const (&string)[N] ){
                                                                                         \
 constexpr size_t CLASS_NAME##_SIZE_=detail::count_character(#__VA_ARGS__,',')+1;        \
                                                                                         \
-class CLASS_NAME{                                                                       \
+class CLASS_NAME                                                                        \
+{                                                                                       \
                                                                                         \
   static_assert(!detail::empty(#__VA_ARGS__),"No enumerators provided");                \
                                                                                         \
@@ -120,31 +121,42 @@ public:                                                                         
                                                                                         \
   enum ENUM_NAME {__VA_ARGS__};                                                         \
                                                                                         \
-  operator ENUM_NAME () const{                                                          \
+  operator ENUM_NAME () const                                                           \
+  {                                                                                     \
     return enumerator_;                                                                 \
   }                                                                                     \
                                                                                         \
-  constexpr CLASS_NAME(ENUM_NAME enumerator=ENUM_NAME{}):enumerator_(enumerator){}      \
+  constexpr CLASS_NAME(ENUM_NAME enumerator=ENUM_NAME{}) :                              \
+    enumerator_(enumerator){}                                                           \
                                                                                         \
-  static constexpr size_t size() {return CLASS_NAME##_SIZE_;}                           \
+  static constexpr size_t size()                                                        \
+  {                                                                                     \
+    return CLASS_NAME##_SIZE_;                                                          \
+  }                                                                                     \
                                                                                         \
-private:\
+private:                                                                                \
   using tokens_t = decltype(detail::make_tokenizer<CLASS_NAME##_SIZE_>(#__VA_ARGS__));  \
-  static tokens_t const & tokens() {                                                    \
+  static tokens_t const & tokens()                                                      \
+  {                                                                                     \
     static const auto names = detail::make_tokenizer<CLASS_NAME##_SIZE_>(#__VA_ARGS__); \
     return names;                                                                       \
   }                                                                                     \
                                                                                         \
 public:                                                                                 \
-  static std::string name(size_t i){                                                    \
+  static std::string name(size_t i)                                                     \
+  {                                                                                     \
     return tokens()[i];                                                                 \
   }                                                                                     \
                                                                                         \
-  static detail::strings_t const & names() {                                            \
+  static detail::strings_t const & names()                                              \
+  {                                                                                     \
     return tokens().strings();                                                          \
   }                                                                                     \
                                                                                         \
-  std::string name() const {return name(enumerator_);}                                  \
+  std::string name() const                                                              \
+  {                                                                                     \
+    return name(enumerator_);                                                           \
+  }                                                                                     \
                                                                                         \
   operator std::string() const {return name(enumerator_);}                              \
                                                                                         \
