@@ -58,7 +58,7 @@ IF ( ${NAMEDSCOPEDENUM_ENABLE_TESTING} )
 	)
   
   # build runner before execution if changes have been made to sources
-	ADD_DEPENDENCIES ( run_${PROJECT_NAME}_tests 
+	ADD_DEPENDENCIES ( run_tests 
 	                   ${PROJECT_NAME}_testrunner )
 
 ENDIF ( ${NAMEDSCOPEDENUM_ENABLE_TESTING} )
