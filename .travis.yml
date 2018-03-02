@@ -1,11 +1,10 @@
 dist: trusty
 sudo: false
 language: cpp
-install: export CXX="g++-6"
 
 matrix:
   include:
-      - env: CXX=g++-6 CC=gcc-6 GCOV=gcov-6
+      - env: GCC_VERSION=6 CXX=g++-6 CC=gcc-6 GCOV=gcov-6
         addons:
           apt:
             sources:
