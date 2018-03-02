@@ -22,12 +22,12 @@ before_script:
 
 script: 
   - g++ --version
-  - gcov-6 --version
+  - gcov --version
   - make 
   - make run_tests
 
 after_success:
-- coveralls --root . -E ".*CMakeFiles.*" 
+- coveralls --gcov gcov-6 --root . -E ".*CMakeFiles.*" 
 
 notifications:
   email:
