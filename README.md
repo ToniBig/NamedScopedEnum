@@ -1,27 +1,56 @@
-# NamedScopedEnum
-Scoped C++ enumeration with string descriptors
+# Named Scoped Enum
+Create scoped __enum__ providing __number__ and __string descriptors__ of all enumerators
 
 [![Build Status](https://travis-ci.org/ToniBig/NamedScopedEnum.svg?branch=master)](https://travis-ci.org/ToniBig/NamedScopedEnum)
 [![Version](https://img.shields.io/badge/c%2B%2B-14-blue.svg)](http://en.cppreference.com/w/cpp)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://en.wikipedia.org/wiki/MIT_License)
 
 ## Features
+* __Single-header-only__ library providing the macro __`NAMED_SCOPED_ENUM`__
+* The macro creates enums, which are __scoped__ like C++11's enum classes __but convert to integral types automatically__
+* The __number of enumerators__, i.e. the size, is available via the __constexpr__ member function __`size()`__
+* __All__ enumerator __names__ are available `std::vector<std::string>` via __static__ member function __`names()`__
+* The __current name__ is available as std::string via member the functions __`operator std::string`__ and __`name()`__
+* __String__ representations of __all enumerators__ are created at __compile time__
 
-This library provides the `NAMED_SCOPED_ENUM` macro, which creates a strongly typed (scoped) enumeration with the following features:
-* The created types are scoped like C++11's enum classes, but convert to integral types automatically
-* Representation of current enumerator as std::string via member functions `operator std::string` and `name()`
-* List of enumerator names via __static__ member function `names()`
-* Size of enumeration, i.e. number of enumerators, via constexpr member function `size()`
+## Limitation
 * The macro does not support custom values for the enumerators
 
-## Usage
+## Dependencies
+* std::vector<>
+* std::string<>
 
-To create an scoped enumeration, provide a named and enumerators for the enum to be created to the `NAMED_SCOPED_ENUM` macro. The created type provides the enumerators, the size of the enum and the individual names (std::string representations) of the enumerators. 
+## Synopsis
+To create an scoped enumeration, provide a name and enumerators for the enum to be created to the `NAMED_SCOPED_ENUM` macro. The created type provides the enumerators, the size of the enum and the individual names (std::string representations) of the enumerators. 
 
-### An example
+The following call to the macro `NAMED_SCOPED_ENUM`
+```cpp
+NAMED_SCOPED_ENUM( Colors, GREEN, YELLOW, RED );
+```
+will generate a class like this
 
 ```cpp
-#include "NamedScopedEnum.hpp"
+struct Colors 
+{
+public:
+  ENUM { GREEN, YELLOW, RED};
+  
+  constexpr Colors(ENUM e = ENUM{});
+  
+  static constexpr size_t size();
+  
+  static std::string name(size_t i);
+  static std::vector<std::string> const & names();
+  
+  std::string name() const;
+  operator std::string() const;
+};
+```
+
+## Simple usage
+
+```cpp
+#include "named_scoped_enum.hpp"
 
 NAMED_SCOPED_ENUM( Colors, GREEN, YELLOW, RED );
 
@@ -82,13 +111,13 @@ current_color: GREEN
 Available colors are: GREEN YELLOW RED
 ```
 
-### Create a static map using a std::array
+## Create a static map using a std::array
 
-To create a map with a fixed number of named keys and contant time look up
-just combine a `std::array` with a `NamedScopedEnum`. 
+To create a map with a fixed number of named keys and constant time look up
+just combine a `std::array` with a `NAMED_SCOPED_ENUM`. 
 
 ```cpp
-#include "NamedScopedEnum.hpp"
+#include "named_scoped_enum.hpp"
 
 #include <array>
 
