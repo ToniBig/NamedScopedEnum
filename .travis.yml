@@ -22,6 +22,7 @@ before_script:
 
 script: 
   - g++ --version
+  - gcov --version
   - make 
   - make run_tests
 
