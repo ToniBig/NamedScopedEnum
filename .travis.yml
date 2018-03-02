@@ -30,6 +30,5 @@ notifications:
   email:
     recipients:
       - tino.bog@gmail.com
-      - nils.zander@tum.de
     on_success: change
     on_failure: always
