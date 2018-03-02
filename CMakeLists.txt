@@ -52,7 +52,7 @@ IF ( ${NAMEDSCOPEDENUM_ENABLE_TESTING} )
        
   # build target to run tests contained in the runner
 	ADD_CUSTOM_TARGET ( 
-    run_${PROJECT_NAME}_tests 
+    run_tests 
     ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_testrunner
     COMMENT "Running tests for ${PROJECT_NAME}" VERBATIM 
 	)
