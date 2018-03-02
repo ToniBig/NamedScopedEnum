@@ -18,8 +18,8 @@ Create scoped __enum__ providing __number__ and __string descriptors__ of all en
 * The macro does not support custom values for the enumerators
 
 ## Dependencies
-* std::vector<>
-* std::string<>
+* std::vector
+* std::string
 
 ## Synopsis
 To create an scoped enumeration, provide a name and enumerators for the enum to be created to the `NAMED_SCOPED_ENUM` macro. The created type provides the enumerators, the size of the enum and the individual names (std::string representations) of the enumerators. 
