@@ -1,6 +1,7 @@
 dist: trusty
 sudo: false
 language: cpp
+install: export CXX="g++-6"
 
 matrix:
   include:
