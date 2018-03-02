@@ -31,8 +31,8 @@ PROJECT ( NamedScopedEnum CXX )
 # SET OPTIONS
 #------------------------------------------------------------------------------
 OPTION ( NAMEDSCOPEDENUM_ENABLE_TESTING "Enable tests for NamedScopedEnum library" ON )
-  
 SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14" )
+SET(COVERAGE OFF CACHE BOOL "Coverage")
 
 #------------------------------------------------------------------------------
 # CREATE EXAMPLES
@@ -62,3 +62,8 @@ IF ( ${NAMEDSCOPEDENUM_ENABLE_TESTING} )
 	                   ${PROJECT_NAME}_testrunner )
 
 ENDIF ( ${NAMEDSCOPEDENUM_ENABLE_TESTING} )
+
+if (COVERAGE)
+    target_compile_options(${PROJECT_NAME}_testrunner PRIVATE --coverage)
+    target_link_libraries(${PROJECT_NAME}_testrunner PRIVATE --coverage)
+endif()  
