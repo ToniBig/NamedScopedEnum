@@ -158,7 +158,10 @@ public:                                                                         
     return name(enumerator_);                                                           \
   }                                                                                     \
                                                                                         \
-  operator std::string() const {return name(enumerator_);}                              \
+  operator std::string() const                                                          \
+  {                                                                                     \
+    return name(enumerator_);                                                           \
+  }                                                                                     \
                                                                                         \
 private:                                                                                \
   ENUM_NAME enumerator_;                                                                \
