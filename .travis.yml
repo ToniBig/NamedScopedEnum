@@ -21,6 +21,7 @@ before_script:
   - CXX=/usr/bin/g++-6 CC=/usr/bin/gcc-6 GCOV=gcov-6 cmake -DCOVERAGE=1 ..
 
 script: 
+  - g++ --version
   - make 
   - make run_tests
 
