@@ -4,7 +4,7 @@ language: cpp
 
 matrix:
   include:
-      - env: CXX=g++-6 CC=gcc-6 GCOV=gcov-6
+      - env: GCC_VERSION=6 CXX=g++-6 CC=gcc-6 GCOV=gcov-6
         addons:
           apt:
             sources:
@@ -25,7 +25,7 @@ script:
   - make run_tests
 
 after_success:
-- coveralls --root . -E ".*CMakeFiles.*" 
+- coveralls --gcov gcov-6 --root . -E ".*CMakeFiles.*" 
 
 notifications:
   email:
