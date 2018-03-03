@@ -26,7 +26,7 @@
 // Something healthy
 NAMED_SCOPED_ENUM( FRUIT, APPLE, ORANGE, BANANA, PLUM );
 
-static_assert(FRUIT_SIZE_==4," ");
+static_assert(_FRUIT_SIZE_==4," ");
 
 int main( int argc,
           char **argv )
