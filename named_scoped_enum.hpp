@@ -19,8 +19,8 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#ifndef NAMED_SCOPED_ENUM_HPP_
-#define NAMED_SCOPED_ENUM_HPP_
+#ifndef _NAMED_SCOPED_ENUM_HPP_
+#define _NAMED_SCOPED_ENUM_HPP_
 
 #include <string>
 #include <vector>
@@ -105,66 +105,97 @@ tokenizer<N, C> make_tokenizer( char const (&string)[N] ){
 
 } // namespace detail
 
-#define NAMED_SCOPED_ENUM(CLASS_NAME,...)                                               \
-                                                                                        \
-constexpr size_t CLASS_NAME##_SIZE_=detail::count_character(#__VA_ARGS__,',')+1;        \
-                                                                                        \
-class CLASS_NAME                                                                        \
-{                                                                                       \
-                                                                                        \
-  static_assert(!detail::empty(#__VA_ARGS__),"No enumerators provided");                \
-                                                                                        \
-  static_assert(detail::count_character(#__VA_ARGS__,'=')==0,                           \
-                "Custom enumerators (=) are not supported");                            \
-                                                                                        \
-public:                                                                                 \
-                                                                                        \
-  enum ENUM_NAME {__VA_ARGS__};                                                         \
-                                                                                        \
-  operator ENUM_NAME () const                                                           \
-  {                                                                                     \
-    return enumerator_;                                                                 \
-  }                                                                                     \
-                                                                                        \
-  constexpr CLASS_NAME(ENUM_NAME enumerator=ENUM_NAME{}) :                              \
-    enumerator_(enumerator){}                                                           \
-                                                                                        \
-  static constexpr size_t size()                                                        \
-  {                                                                                     \
-    return CLASS_NAME##_SIZE_;                                                          \
-  }                                                                                     \
-                                                                                        \
-private:                                                                                \
-  using tokens_t = decltype(detail::make_tokenizer<CLASS_NAME##_SIZE_>(#__VA_ARGS__));  \
-  static tokens_t const & tokens()                                                      \
-  {                                                                                     \
-    static const auto names = detail::make_tokenizer<CLASS_NAME##_SIZE_>(#__VA_ARGS__); \
-    return names;                                                                       \
-  }                                                                                     \
-                                                                                        \
-public:                                                                                 \
-  static std::string name(size_t i)                                                     \
-  {                                                                                     \
-    return tokens()[i];                                                                 \
-  }                                                                                     \
-                                                                                        \
-  static detail::strings_t const & names()                                              \
-  {                                                                                     \
-    return tokens().strings();                                                          \
-  }                                                                                     \
-                                                                                        \
-  std::string name() const                                                              \
-  {                                                                                     \
-    return name(enumerator_);                                                           \
-  }                                                                                     \
-                                                                                        \
-  operator std::string() const                                                          \
-  {                                                                                     \
-    return name(enumerator_);                                                           \
-  }                                                                                     \
-                                                                                        \
-private:                                                                                \
-  ENUM_NAME enumerator_;                                                                \
+#define NAMED_SCOPED_ENUM(CLASS_NAME,...)                                                 \
+                                                                                          \
+constexpr size_t _##CLASS_NAME##_SIZE_=detail::count_character(#__VA_ARGS__,',')+1;       \
+                                                                                          \
+class CLASS_NAME                                                                          \
+{                                                                                         \
+                                                                                          \
+  static_assert(!detail::empty(#__VA_ARGS__),"No enumerators provided");                  \
+                                                                                          \
+  static_assert(detail::count_character(#__VA_ARGS__,'=')==0,                             \
+                "Custom enumerators (=) are not supported");                              \
+                                                                                          \
+public:                                                                                   \
+                                                                                          \
+  enum ENUM {__VA_ARGS__};                                                                \
+                                                                                          \
+  ENUM  value() const                                                                     \
+  {                                                                                       \
+    return enum_;                                                                         \
+  }                                                                                       \
+                                                                                          \
+  constexpr CLASS_NAME(ENUM enumerator=ENUM{}) :                                          \
+    enum_(enumerator){}                                                                   \
+                                                                                          \
+  static constexpr size_t size()                                                          \
+  {                                                                                       \
+    return _##CLASS_NAME##_SIZE_;                                                         \
+  }                                                                                       \
+                                                                                          \
+private:                                                                                  \
+  using tokens_t = decltype(detail::make_tokenizer<_##CLASS_NAME##_SIZE_>(#__VA_ARGS__)); \
+  static tokens_t const & tokens()                                                        \
+  {                                                                                       \
+    static const auto names = detail::make_tokenizer<_##CLASS_NAME##_SIZE_>(#__VA_ARGS__);\
+    return names;                                                                         \
+  }                                                                                       \
+                                                                                          \
+public:                                                                                   \
+  static std::string name(size_t i)                                                       \
+  {                                                                                       \
+    return tokens()[i];                                                                   \
+  }                                                                                       \
+                                                                                          \
+  static detail::strings_t const & names()                                                \
+  {                                                                                       \
+    return tokens().strings();                                                            \
+  }                                                                                       \
+                                                                                          \
+  std::string name() const                                                                \
+  {                                                                                       \
+    return name(enum_);                                                                   \
+  }                                                                                       \
+                                                                                          \
+  operator std::string() const                                                            \
+  {                                                                                       \
+    return name(enum_);                                                                   \
+  }                                                                                       \
+                                                                                          \
+  friend bool operator == (const CLASS_NAME & lhs, const CLASS_NAME & rhs)                \
+  {                                                                                       \
+    return lhs.enum_ == rhs.enum_;                                                        \
+  }                                                                                       \
+                                                                                          \
+  friend bool operator != (const CLASS_NAME & lhs, const CLASS_NAME & rhs)                \
+  {                                                                                       \
+    return lhs.enum_ != rhs.enum_;                                                        \
+  }                                                                                       \
+                                                                                          \
+  friend bool operator <  (const CLASS_NAME & lhs, const CLASS_NAME & rhs)                \
+  {                                                                                       \
+    return lhs.enum_ <  rhs.enum_;                                                        \
+  }                                                                                       \
+                                                                                          \
+  friend bool operator <= (const CLASS_NAME & lhs, const CLASS_NAME & rhs)                \
+  {                                                                                       \
+    return lhs.enum_ <= rhs.enum_;                                                        \
+  }                                                                                       \
+                                                                                          \
+  friend bool operator >  (const CLASS_NAME & lhs, const CLASS_NAME & rhs)                \
+  {                                                                                       \
+    return lhs.enum_ >  rhs.enum_;                                                        \
+  }                                                                                       \
+                                                                                          \
+  friend bool operator >= (const CLASS_NAME & lhs, const CLASS_NAME & rhs)                \
+  {                                                                                       \
+    return lhs.enum_ >= rhs.enum_;                                                        \
+  }                                                                                       \
+                                                                                          \
+private:                                                                                  \
+  ENUM enum_;                                                                             \
 }
 
-#endif // NAMED_SCOPED_ENUM_HPP_
+
+#endif // _NAMED_SCOPED_ENUM_HPP_
