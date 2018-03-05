@@ -1,17 +1,13 @@
 #include <array>
 #include <string>
-#include <type_traits>
 
 namespace named_enum {
 
-// Type constraint
-#define IS_ENUM(E) typename = typename std::enable_if<std::is_enum<E>::value>::type
-
 // Size interface
-template<typename E, IS_ENUM(E)>
+template<typename E>
 constexpr unsigned int size( );
 
-template<typename E, IS_ENUM(E)>
+template<typename E>
 constexpr unsigned int size( E const & e ) {
   return size<E>();
 }
@@ -22,20 +18,18 @@ using string_t=std::string;
 template<unsigned int N>
 using string_array_t=std::array<string_t, N>;
 
-template<typename E, IS_ENUM(E)>
+template<typename E>
 auto names( ) -> string_array_t<size<E>()> const &;
 
-template<typename E, IS_ENUM(E)>
+template<typename E>
 auto names( E const & ) -> string_array_t<size<E>()> const & {
   return names<E>( );
 }
 
-template<typename E, IS_ENUM(E)>
+template<typename E>
 auto name( E const & e ) -> string_t {
   return names( e )[static_cast<unsigned int>(e)];
 }
-
-#undef IS_ENUM
 
 namespace detail {
 
