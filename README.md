@@ -51,11 +51,11 @@ Three
 * type_traits
 
 ## Synopsis
-When an enum `E` is created with any the four macros, the specialized versions of the functions 
+When an enum `E` is created with any of the four macros, the specialized versions of the functions 
 below are created.
 
+### Size interface
 ```cpp
-// __Size interface__
 template<typename E>
 constexpr auto size -> unsigned int ( );
 
@@ -63,8 +63,9 @@ template<typename E>
 constexpr auto size -> unsigned int ( E const & e ) {
   return size<E>();
 }
-
-// __Name interface__
+```
+### Name interface
+```cpp
 using string_t=std::string;
 
 template<unsigned int N>
@@ -163,7 +164,7 @@ MAKE_NAMED_ENUM( FRUIT, APPLE, ORANGE, BANANA, PLUM );
 int main( int argc, char **argv )
 {
   static const size_t size=named_enum::size<FRUIT>( );
-  std::array<int, size> fruitMap; // size() is constexpr
+  std::array<int, size> fruitMap;
 
   fruitMap[FRUIT::APPLE] = 4;
   fruitMap[FRUIT::ORANGE] = 1;
@@ -174,7 +175,7 @@ int main( int argc, char **argv )
 
   for ( size_t i = 0; i < size; ++i )
   {
-    auto names = named_enum::names<FRUIT>( ); // names() is static
+    auto names = named_enum::names<FRUIT>( );
     std::cout << names[i] << " : " << fruitMap[i] << std::endl;
   } // end of i -loop
 }
