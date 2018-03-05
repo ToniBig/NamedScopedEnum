@@ -1,7 +1,7 @@
 [![Version](https://img.shields.io/badge/c%2B%2B-14-blue.svg)](http://en.cppreference.com/w/cpp)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://en.wikipedia.org/wiki/MIT_License)
-[![Build Status](https://travis-ci.org/ToniBig/NamedScopedEnum.svg?branch=master)](https://travis-ci.org/ToniBig/NamedScopedEnum)
-[![Build status](https://ci.appveyor.com/api/projects/status/3ybtwektk15wwpfu?svg=true)](https://ci.appveyor.com/project/ToniBig/namedscopedenum)
+[![Build Status](https://travis-ci.org/ToniBig/cpp-named-enum.svg?branch=master)](https://travis-ci.org/ToniBig/cpp-named-enum)
+[![Build status](https://ci.appveyor.com/api/projects/status/islki6u6nki3s2m2?svg=true)](https://ci.appveyor.com/project/ToniBig/cpp-named-enum)
 [![Coverage Status](https://coveralls.io/repos/github/ToniBig/NamedScopedEnum/badge.svg?branch=master)](https://coveralls.io/github/ToniBig/NamedScopedEnum?branch=master)
 
 # Named Enums
