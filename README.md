@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/ToniBig/NamedScopedEnum/badge.svg?branch=master)](https://coveralls.io/github/ToniBig/NamedScopedEnum?branch=master)
 
 # Named Enums
-This library provides macros to __create__ standard __enums__ and __enum classes__ with __stringified enumerators__. The macros are
+This library provides the following macros to __create__ standard __enums__ and __enum classes__ with __stringified enumerators__
 
 * `MAKE_NAMED_ENUM(enum_name,...)` creates a standard enum "enum_name" with named enumerators "..."
 * `MAKE_NAMED_ENUM_CLASS(enum_name,...)` creates a C++11 enum class "enum_name" with named enumerators "..."
