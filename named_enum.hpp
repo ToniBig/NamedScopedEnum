@@ -5,30 +5,30 @@ namespace named_enum {
 
 // Size interface
 template<typename E>
-constexpr unsigned int size( );
+constexpr size_t size( );
 
 template<typename E>
-constexpr unsigned int size( E const & e ) {
+constexpr size_t size( E const & e ) {
   return size<E>();
 }
 
 // Name interface
 using string_t=std::string;
 
-template<unsigned int N>
+template<size_t N>
 using string_array_t=std::array<string_t, N>;
 
 template<typename E>
-auto names( ) -> string_array_t<size<E>()> const &;
+const string_array_t<size<E>()> & names( );
 
 template<typename E>
-auto names( E const & ) -> string_array_t<size<E>()> const & {
+const string_array_t<size<E>()> & names( E const & ) {
   return names<E>( );
 }
 
 template<typename E>
 auto name( E const & e ) -> string_t {
-  return names( e )[static_cast<unsigned int>(e)];
+  return names( e )[static_cast<size_t>(e)];
 }
 
 namespace detail {
@@ -49,7 +49,7 @@ constexpr size_t count_character( char const (&string)[N],
 }
 
 template<int N>
-constexpr bool empty( char const (&string)[N] ){
+constexpr bool empty( char const (&)[N] ){
   return N==1;
 }
 
@@ -106,7 +106,7 @@ enum enum_strictness enum_name : enum_type {                                    
 namespace named_enum {                                                                 \
                                                                                        \
 template<>                                                                             \
-constexpr unsigned int size<enum_name>( ){                                             \
+constexpr size_t size<enum_name>( ){                                                   \
   return detail::count_character(#__VA_ARGS__,',')+1;                                  \
 }                                                                                      \
                                                                                        \
