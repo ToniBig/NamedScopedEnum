@@ -37,6 +37,7 @@ SET(COVERAGE OFF CACHE BOOL "Coverage")
 #------------------------------------------------------------------------------
 # CREATE EXAMPLES
 #------------------------------------------------------------------------------
+ADD_EXECUTABLE ( intro example/intro.cpp )
 ADD_EXECUTABLE ( static_map example/static_map.cpp )
 ADD_EXECUTABLE ( basic_usage example/basic_usage.cpp )
 
