@@ -15,7 +15,7 @@ This library provides the following macros to __create__ standard __enums__ and 
 ## A short example
 
 ```cpp
-#include "../named_enum.hpp"
+#include "named_enum.hpp"
 #include <iostream>
 
 MAKE_NAMED_ENUM_CLASS(FirstThree, One, Two, Three);
@@ -87,7 +87,7 @@ auto name( E const & e ) -> string_t {
 ## Simple usage
 
 ```cpp
-#include "../named_enum.hpp"
+#include "named_enum.hpp"
 #include <iostream>
 
 MAKE_NAMED_ENUM_CLASS( Colors, GREEN, YELLOW, RED );
