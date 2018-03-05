@@ -19,29 +19,29 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#include "../named_scoped_enum.hpp"
+#include "../named_enum.hpp"
 #include <iostream>
 
-NAMED_SCOPED_ENUM( Colors, GREEN, YELLOW, RED );
+MAKE_NAMED_ENUM_CLASS( Colors, GREEN, YELLOW, RED );
 
-class TrafficLight
-{
+class TrafficLight {
 public:
   TrafficLight( Colors color ) :
-          color_( color )
-  {
-    std::cout << "Initialized signal with: " << color_.name( ) << std::endl;
+          color_( color ){
+    std::cout << "Initialized signal with: " << get_name( ) << std::endl;
   }
 
-  void set_color( Colors color )
-  {
+  void set_color( Colors color ){
     color_ = color;
-    std::cout << "Set signal to: " << color_.name( ) << std::endl;
+    std::cout << "Set signal to: " << get_name( ) << std::endl;
   }
 
-  Colors get_color( ) const
-  {
+  Colors get_color( ) const{
     return color_;
+  }
+
+  std::string get_name( ) const{
+    return named_enum::name( color_ );
   }
 
 private:
@@ -49,22 +49,20 @@ private:
 };
 
 int main( int argc,
-          char **argv )
-{
+          char **argv ){
   TrafficLight signal( Colors::RED );
 
   signal.set_color( Colors::YELLOW );
 
   signal.set_color( Colors::GREEN );
 
-  std::string current_color = signal.get_color( );
+  auto current_color = signal.get_name( );
 
   std::cout << "current_color: " << current_color << std::endl;
 
   std::cout << "Available colors are:";
 
-  for ( const auto & color : Colors::names( ) )
-  {
+  for ( const auto & color : named_enum::names<Colors>( ) ) {
     std::cout << " " << color;
   }
 

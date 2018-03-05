@@ -19,20 +19,18 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#include "../named_scoped_enum.hpp"
+#include "../named_enum.hpp"
 #include <array>
 #include <iostream>
 
 // Something healthy
-NAMED_SCOPED_ENUM( FRUIT, APPLE, ORANGE, BANANA, PLUM );
-
-static_assert(_FRUIT_SIZE_==4," ");
+MAKE_NAMED_ENUM( FRUIT, APPLE, ORANGE, BANANA, PLUM );
 
 int main( int argc,
           char **argv )
 {
-
-  std::array<int, FRUIT::size( )> fruitMap; // size() is constexpr
+  static const size_t size=named_enum::size<FRUIT>( );
+  std::array<int, size> fruitMap; // size() is constexpr
 
   fruitMap[FRUIT::APPLE] = 4;
   fruitMap[FRUIT::ORANGE] = 1;
@@ -41,9 +39,9 @@ int main( int argc,
 
   std::cout << "How much fruit is in the basket?" << std::endl;
 
-  for ( size_t i = 0; i < FRUIT::size( ); ++i )
+  for ( size_t i = 0; i < size; ++i )
   {
-    auto names = FRUIT::names( ); // names() is static
+    auto names = named_enum::names<FRUIT>( ); // names() is static
     std::cout << names[i] << " : " << fruitMap[i] << std::endl;
   } // end of i -loop
 }
