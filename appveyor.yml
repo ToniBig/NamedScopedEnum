@@ -7,7 +7,6 @@ platform:
  
 configuration:
   - Release
-  - Debug
 
 install:
     - git submodule update --init --recursive
@@ -19,5 +18,5 @@ build:
   project: $(APPVEYOR_BUILD_FOLDER)\$(APPVEYOR_PROJECT_NAME).sln
 
 test_script:
-  - '%APPVEYOR_BUILD_FOLDER%\%CONFIGURATION%\NamedScopedEnum_testrunner.exe'
+  - '%APPVEYOR_BUILD_FOLDER%\%CONFIGURATION%\testrunner.exe'
 
