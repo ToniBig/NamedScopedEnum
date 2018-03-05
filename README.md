@@ -36,7 +36,7 @@ Three
 
 
 ## Features
-* __Single-header-only__ library
+* __Single header__ library
 * The __number of enumerators__, i.e. the size, is available
 * __All__ enumerator __names__ are available as std::array of std::strings
 * The __current name__ is available as std::string
