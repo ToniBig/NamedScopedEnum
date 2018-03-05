@@ -48,7 +48,6 @@ Three
 ## Dependencies (standard library)
 * array
 * string
-* type_traits
 
 ## Synopsis
 When an enum `E` is created with any of the four macros, the specialized versions of the functions 
