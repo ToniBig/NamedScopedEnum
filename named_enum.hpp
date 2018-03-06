@@ -111,7 +111,7 @@ constexpr size_t size<enum_name>( ){                                            
 }                                                                                      \
                                                                                        \
 template<>                                                                             \
-auto names<enum_name>( ) -> string_array_t<size<enum_name>()> const &{                 \
+const string_array_t<size<enum_name>()> & names<enum_name>( ){                         \
   static auto names=detail::make_tokenizer<size<enum_name>()>(#__VA_ARGS__).strings(); \
   return names;                                                                        \
 }                                                                                      \
