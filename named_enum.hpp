@@ -12,22 +12,22 @@ constexpr size_t size( E const & e ) {
   return size<E>();
 }
 
-// Name interface
-using string_t=std::string;
-
-template<size_t N>
-using string_array_t=std::array<string_t, N>;
+template<typename E>
+struct enum_name_traits{
+  using string_t=std::string;
+  using string_array_t=std::array<string_t, size<E>()>;
+};
 
 template<typename E>
-const string_array_t<size<E>()> & names( );
+const typename enum_name_traits<E>::string_array_t & names( );
 
 template<typename E>
-const string_array_t<size<E>()> & names( E const & ) {
+const typename enum_name_traits<E>::string_array_t & names( E const & ) {
   return names<E>( );
 }
 
 template<typename E>
-auto name( E const & e ) -> string_t {
+typename enum_name_traits<E>::string_t name( E const & e ){
   return names( e )[static_cast<size_t>(e)];
 }
 
@@ -55,6 +55,8 @@ constexpr bool empty( char const (&)[N] ){
 
 template<int N, size_t C>
 class tokenizer {
+  using string_t=std::string;
+  using string_array_t=std::array<string_t,C>;
   char string_[N] { };
   size_t ids_[C] { };
 
@@ -76,8 +78,8 @@ public:
     return true;
   }
 
-  string_array_t<C> strings( ) const{
-    auto strings=string_array_t<C>{};
+  string_array_t strings( ) const{
+    auto strings=string_array_t{};
     for (size_t i = 0; i < C; ++i) {
       strings[i]=string_t{&string_[ids_[i]]};
     } // end of i-loop
@@ -111,7 +113,13 @@ constexpr size_t size<enum_name>( ){                                            
 }                                                                                      \
                                                                                        \
 template<>                                                                             \
-auto names<enum_name>( ) -> string_array_t<size<enum_name>()> const &{                 \
+struct enum_name_traits<enum_name>{                                                    \
+  using string_t=std::string;                                                          \
+  using string_array_t=std::array<string_t, size<enum_name>()>;                        \
+};                                                                                     \
+                                                                                       \
+template<>                                                                             \
+const typename enum_name_traits<enum_name>::string_array_t & names<enum_name>( ){      \
   static auto names=detail::make_tokenizer<size<enum_name>()>(#__VA_ARGS__).strings(); \
   return names;                                                                        \
 }                                                                                      \
