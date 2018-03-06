@@ -15,14 +15,11 @@ constexpr size_t size( E const & e ) {
 // Name interface
 using string_t=std::string;
 
-template<size_t N>
-using string_array_t=std::array<string_t, N>;
+template<typename E>
+const std::array<string_t,size<E>()> & names( );
 
 template<typename E>
-const string_array_t<size<E>()> & names( );
-
-template<typename E>
-const string_array_t<size<E>()> & names( E const & ) {
+const std::array<string_t,size<E>()> & names( E const & ) {
   return names<E>( );
 }
 
@@ -76,8 +73,8 @@ public:
     return true;
   }
 
-  string_array_t<C> strings( ) const{
-    auto strings=string_array_t<C>{};
+  std::array<string_t,C> strings( ) const{
+    auto strings=std::array<string_t,C>{};
     for (size_t i = 0; i < C; ++i) {
       strings[i]=string_t{&string_[ids_[i]]};
     } // end of i-loop
@@ -111,7 +108,7 @@ constexpr size_t size<enum_name>( ){                                            
 }                                                                                      \
                                                                                        \
 template<>                                                                             \
-auto names<enum_name>( ) -> string_array_t<size<enum_name>()> const &{                 \
+auto names<enum_name>( ) -> std::array<string_t,size<enum_name>()> const &{            \
   static auto names=detail::make_tokenizer<size<enum_name>()>(#__VA_ARGS__).strings(); \
   return names;                                                                        \
 }                                                                                      \
@@ -129,3 +126,4 @@ auto names<enum_name>( ) -> string_array_t<size<enum_name>()> const &{          
 
 #define MAKE_NAMED_ENUM_CLASS_WITH_TYPE(enum_name,enum_type,...)                       \
     _MAKE_NAMED_ENUM_WITH_TYPE_IMPL(enum_name,class,enum_type,__VA_ARGS__)
+
