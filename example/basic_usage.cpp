@@ -21,6 +21,7 @@
 
 #include "../named_enum.hpp"
 #include <iostream>
+#include <string>
 
 MAKE_NAMED_ENUM_CLASS( Colors, GREEN, YELLOW, RED );
 

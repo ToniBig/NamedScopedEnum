@@ -20,7 +20,6 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "../named_enum.hpp"
-#include <array>
 #include <iostream>
 
 // Something healthy
