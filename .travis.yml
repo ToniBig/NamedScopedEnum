@@ -1,32 +1,36 @@
 dist: trusty
-sudo: false
+sudo: require
 language: cpp
 
 matrix:
   include:
-      - env: GCC_VERSION=6 CXX=g++-6 CC=gcc-6 GCOV=gcov-6
+      - env: GCC_VERSION=5 CXX=g++-5 CC=gcc-5 GCOV=gcov-5
         addons:
           apt:
             sources:
               - ubuntu-toolchain-r-test
             packages:
-              - g++-6
+              - g++-5
 
 before_install:
-  - pip install --user cpp-coveralls
+  - sudo pip install codecov
+
+install:
+  - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-5 90
 
 before_script:
   - mkdir build
   - cd build
-  - CXX=/usr/bin/g++-6 CC=/usr/bin/gcc-6 GCOV=gcov-6 cmake -DCOVERAGE=1 ..
+  - CXX=/usr/bin/g++-5 CC=/usr/bin/gcc-5 GCOV=gcov-5 cmake -DCOVERAGE=1 ..
 
 script: 
   - make 
   - make run_tests
+  - codecov
 
 after_success:
-- coveralls --gcov gcov-6 --root . -E ".*CMakeFiles.*" 
-
+  - bash <(curl -s https://codecov.io/bash)
+ 
 notifications:
   email:
     recipients:

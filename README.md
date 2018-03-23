@@ -2,7 +2,7 @@
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://en.wikipedia.org/wiki/MIT_License)
 [![Build Status](https://travis-ci.org/ToniBig/cpp-named-enum.svg?branch=master)](https://travis-ci.org/ToniBig/cpp-named-enum)
 [![Build status](https://ci.appveyor.com/api/projects/status/islki6u6nki3s2m2?svg=true)](https://ci.appveyor.com/project/ToniBig/cpp-named-enum)
-[![Coverage Status](https://coveralls.io/repos/github/ToniBig/NamedScopedEnum/badge.svg?branch=master)](https://coveralls.io/github/ToniBig/NamedScopedEnum?branch=master)
+[![codecov](https://codecov.io/gh/ToniBig/cpp-named-enum/branch/master/graph/badge.svg)](https://codecov.io/gh/ToniBig/cpp-named-enum)
 
 # Named Enums
 This library provides the following macros to __create__ standard __enums__ and __enum classes__ with __stringified enumerators__
