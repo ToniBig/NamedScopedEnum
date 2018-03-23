@@ -41,13 +41,10 @@ Three
 * __All__ enumerator __names__ are available as std::array of std::strings
 * The __current name__ is available as std::string
 * All __string__ representations are created at __compile time__
+* Only depends on __std::array__
 
 ## Limitation
 * The macro does not support custom values for the enumerators
-
-## Dependencies (standard library)
-* array
-* string
 
 ## Synopsis
 When an enum `E` is created with any of the four macros, the specialized versions of the functions 

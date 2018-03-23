@@ -69,22 +69,27 @@ TEST_CASE( "Size function is constexpr" ){
 
 MAKE_NAMED_ENUM_CLASS( Color, red,   green, blue );
 
+bool same(const char * lhs, const char * rhs){
+  return std::string(lhs) == std::string(rhs);
+}
+
 TEST_CASE( "Enumerators have names" ){
   auto color = Color { };
 
   color = Color::red;
-  CHECK( named_enum::name( color ) == "red" );
+  CHECK( same(named_enum::name( color ),"red") );
   color = Color::green;
-  CHECK( named_enum::name( color ) == "green" );
+  CHECK( same(named_enum::name( color ), "green") );
   color = Color::blue;
-  CHECK( named_enum::name( color ) == "blue" );
+  CHECK( same(named_enum::name( color ), "blue") );
 }
 
 TEST_CASE("Enum has many names"){
-  std::array<std::string,3> names = named_enum::names<Color>( );
+  auto names = named_enum::names<Color>( );
 
   REQUIRE( names.size( ) == 3 );
-  CHECK( names[0] == "red" );
-  CHECK( names[1] == "green" );
-  CHECK( names[2] == "blue" );
+
+  CHECK( same(names[0], "red") );
+  CHECK( same(names[1], "green") );
+  CHECK( same(names[2], "blue") );
 }
