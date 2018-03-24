@@ -49,6 +49,10 @@ private:
   Colors color_;
 };
 
+constexpr auto green=named_enum::name(Colors::GREEN);
+constexpr auto red=named_enum::name(Colors::RED);
+constexpr auto yellow=named_enum::name(Colors::YELLOW);
+
 int main( int argc,
           char **argv ){
   TrafficLight signal( Colors::RED );

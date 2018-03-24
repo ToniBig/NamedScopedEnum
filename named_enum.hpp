@@ -1,32 +1,35 @@
 #include <array>
+#include <utility>
 
 namespace named_enum {
 
 using string_t=const char *;
 
-// Size interface
-template<typename E>
-constexpr size_t size( );
+/// Size interface
+template<typename E> constexpr
+size_t size( );
 
-template<typename E>
-constexpr size_t size( E const & e ) {
+template<typename E> constexpr
+size_t size( E const & ) {
   return size<E>();
 }
 
+/// Trait class to circumvent MSVC broken two-phase template lookup
 template<typename E>
 struct enum_name_traits{
   using string_array_t=std::array<string_t, size<E>()>;
 };
 
-template<typename E>
+/// Name interface
+template<typename E> constexpr
 const typename enum_name_traits<E>::string_array_t & names( );
 
-template<typename E>
+template<typename E> constexpr
 const typename enum_name_traits<E>::string_array_t & names( E const & ) {
   return names<E>( );
 }
 
-template<typename E>
+template<typename E> constexpr
 string_t name( E const & e ){
   return names( e )[static_cast<size_t>(e)];
 }
@@ -48,38 +51,35 @@ constexpr size_t count_character( char const (&string)[N],
   return detail::count_impl( string, character, N, 0 );
 }
 
-template<int N>
+template<size_t N>
 constexpr bool empty( char const (&)[N] ){
   return N==1;
 }
 
-template<size_t C>
-constexpr auto string_array(char const * string, size_t (&ids)[C], std::array<const char *,C> & strings) {
-  for (size_t i = 0; i < C; ++i) {
-    strings[i]=string+ids[i];
-  }
+template<size_t N>
+constexpr size_t length( char const (&)[N] ){
+  return N;
 }
 
-template<size_t C>
-constexpr auto string_array(char const * string, size_t (&ids)[C]) {
-  std::array<char const *,C> strings{};
-  string_array(string,ids,strings);
-  return strings;
+template<std::size_t... I>
+constexpr std::array<string_t,sizeof...(I)> make_array( char * string,  char ** ids, std::index_sequence<I...>){
+    return std::array<string_t,sizeof...(I)>{ids[I]...};
 }
 
 template<int N, size_t C>
 class tokenizer {
   using string_array_t=std::array<string_t,C>;
   char string_[N] { };
-  size_t ids_[C] { };
-  string_array_t strings_;
+  char * ids_[C] { };
+  string_array_t strings_{};
 
 public:
   constexpr tokenizer( char const (&string)[N] ){
     size_t count = 0;
+    ids_[0]= &string_[0];
     for ( size_t i = 0; i < N; ++i ) {
       if ( string[i] == ',' ) {
-        ids_[++count] = i + 2;
+        ids_[++count] = &string_[i + 2];
         string_[i] = '\0';
       }
       else {
@@ -87,23 +87,16 @@ public:
       }
     } // end of i-loop
 
-    strings_=string_array(&string_[0],ids_);
+
+    constexpr auto sequence=std::make_index_sequence<C>();
+    strings_=make_array(&string_[0],&ids_[0],sequence);
   }
 
-  constexpr operator bool( ) const{
-    return true;
-  }
-
-  constexpr std::array<const char*,C> const & strings()
+  constexpr std::array<const char*,C> const & strings() const
   {
     return strings_;
   }
 };
-
-template<size_t C, size_t N> constexpr
-tokenizer<N, C> make_tokenizer( char const (&string)[N] ){
-  return tokenizer<N, C>( string );
-}
 
 } // namespace detail
 } // namespace named_enum
@@ -130,10 +123,12 @@ struct enum_name_traits<enum_name>{                                             
   using string_array_t=std::array<string_t, size<enum_name>()>;                        \
 };                                                                                     \
                                                                                        \
-template<>                                                                             \
+constexpr auto _##enum_name##_##tokenizer=                                             \
+  detail::tokenizer<detail::length(#__VA_ARGS__),size<enum_name>()>(#__VA_ARGS__);     \
+                                                                                       \
+template<> constexpr                                                                   \
 const typename enum_name_traits<enum_name>::string_array_t & names<enum_name>( ){      \
-  static auto names=detail::make_tokenizer<size<enum_name>()>(#__VA_ARGS__);           \
-  return names.strings();                                                              \
+  return _##enum_name##_##tokenizer.strings();                                         \
 }                                                                                      \
                                                                                        \
 } // namespace named_enum
