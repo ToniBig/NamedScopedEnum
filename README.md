@@ -38,8 +38,8 @@ Three
 ## Features
 * __Single header__ library
 * The __number of enumerators__, i.e. the size, is available
-* __All__ enumerator __names__ are available as std::array of std::strings
-* The __current name__ is available as std::string
+* __All__ enumerator __names__ are available as std::array of const char *
+* The __current name__ is available as const char *
 * All __string__ representations are created at __compile time__
 * Only depends on __std::array__
 
@@ -56,26 +56,26 @@ template<typename E>
 constexpr auto size -> unsigned int ( );
 
 template<typename E>
-constexpr auto size -> unsigned int ( E const & e ) {
+constexpr auto size -> unsigned int ( E const & ) {
   return size<E>();
 }
 ```
 ### Name interface
 ```cpp
-using string_t=std::string;
+using string_t=const char *;
 
 template<unsigned int N>
 using string_array_t=std::array<string_t, N>;
 
-template<typename E>
+template<typename E> constexpr
 auto names( ) -> string_array_t<size<E>()> const &;
 
-template<typename E>
+template<typename E> constexpr
 auto names( E const & ) -> string_array_t<size<E>()> const & {
   return names<E>( );
 }
 
-template<typename E>
+template<typename E> constexpr
 auto name( E const & e ) -> string_t {
   return names( e )[static_cast<unsigned int>(e)];
 }
