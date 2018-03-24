@@ -49,7 +49,7 @@
 //                B,
 //                C); //<-- error: static assertion failed: Custom enumerators (=) are not supported
 
-MAKE_NAMED_ENUM( Baz1, A1, B1, C1 );
+MAKE_NAMED_ENUM( Baz1,   A1, B1   , C1 );
 MAKE_NAMED_ENUM_CLASS( Baz2, A2, B2, C2 );
 MAKE_NAMED_ENUM_WITH_TYPE( Baz3, int, A3, B3, C3 );
 MAKE_NAMED_ENUM_CLASS_WITH_TYPE( Baz4, int, A4, B4, C4 );
@@ -85,7 +85,7 @@ TEST_CASE( "Enumerators have names" ){
 }
 
 TEST_CASE("Enum has many names"){
-  auto names = named_enum::names<Color>( );
+  constexpr auto names = named_enum::names<Color>( );
 
   REQUIRE( names.size( ) == 3 );
 

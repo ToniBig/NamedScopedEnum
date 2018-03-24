@@ -36,19 +36,14 @@ string_t name( E const & e ){
 
 namespace detail {
 
-constexpr size_t count_impl( const char * string,
-                             char character,
-                             size_t char_count,
-                             size_t comma_count ){
-  if ( string[--char_count] == character ) comma_count++;
-  if ( char_count == 0 ) return comma_count;
-  return count_impl( string, character, char_count, comma_count );
-}
-
 template<size_t N>
 constexpr size_t count_character( char const (&string)[N],
                                   char character ){
-  return detail::count_impl( string, character, N, 0 );
+  auto count=size_t {};
+  for (size_t i = 0; i < N; ++i) {
+    if(string[i]==character) ++count;
+  } // end of i-loop
+  return count;
 }
 
 template<size_t N>
