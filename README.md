@@ -144,9 +144,9 @@ Available colors are: GREEN YELLOW RED
 
 ## Create a static map using a std::array
 
-To create a map with a fixed number of named keys and constant time look up
+To create a map with a fixed number of named keys and constant time look up,
 just combine a `std::array` with the `MAKED_NAMED_ENUM` macro, whose enumerators 
-automatically convert to interal types. 
+automatically convert to integral types. 
 
 ```cpp
 #include "../named_enum.hpp"
