@@ -48,7 +48,7 @@ constexpr size_t count_character( char const (&string)[N],
 
 template<size_t N>
 constexpr bool empty( char const (&)[N] ){
-  return N==1;
+  return N==1; // Just the null-terminator
 }
 
 template<size_t N>
@@ -63,7 +63,9 @@ constexpr bool has_trailing_comma( char const (&string)[N] ){
 
 
 template<std::size_t... I>
-constexpr std::array<string_t,sizeof...(I)> make_array( char * string,  char ** ids, std::index_sequence<I...>){
+constexpr std::array<string_t,sizeof...(I)> make_array( char * string,
+                                                        char ** ids,
+                                                        std::index_sequence<I...> ){
     return std::array<string_t,sizeof...(I)>{ids[I]...};
 }
 
@@ -87,7 +89,6 @@ public:
         string_[i] = string[i];
       }
     } // end of i-loop
-
 
     constexpr auto sequence=std::make_index_sequence<C>();
     strings_=make_array(&string_[0],&ids_[0],sequence);
