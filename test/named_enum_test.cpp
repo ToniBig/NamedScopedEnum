@@ -48,23 +48,28 @@
 //                A = 1,
 //                B,
 //                C); //<-- error: static assertion failed: Custom enumerators (=) are not supported
+//MAKE_NAMED_ENUM( Baz1,
+//                 A1,
+//                 B1,
+//                 C1,); // <--error: static assertion failed: Trailing comma is not supported
 
-MAKE_NAMED_ENUM( Baz1,   A1, B1   , C1 );
-MAKE_NAMED_ENUM_CLASS( Baz2, A2, B2, C2 );
-MAKE_NAMED_ENUM_WITH_TYPE( Baz3, int, A3, B3, C3 );
-MAKE_NAMED_ENUM_CLASS_WITH_TYPE( Baz4, int, A4, B4, C4 );
+
+MAKE_NAMED_ENUM( Baz1,A1,B1,C1);
+MAKE_NAMED_ENUM_CLASS( Baz2, A2, B2, C2, D2 );
+MAKE_NAMED_ENUM_WITH_TYPE( Baz3, int, A3, B3, C3, D3, E3 );
+MAKE_NAMED_ENUM_CLASS_WITH_TYPE( Baz4, int, A4, B4, C4   ,  D4  ,  E4  , F4 );
 
 TEST_CASE( "Size function is constexpr" ){
 
   static_assert(named_enum::size<Baz1>()==3,"Incorrect size");
-  static_assert(named_enum::size<Baz2>()==3,"Incorrect size");
-  static_assert(named_enum::size<Baz3>()==3,"Incorrect size");
-  static_assert(named_enum::size<Baz4>()==3,"Incorrect size");
+  static_assert(named_enum::size<Baz2>()==4,"Incorrect size");
+  static_assert(named_enum::size<Baz3>()==5,"Incorrect size");
+  static_assert(named_enum::size<Baz4>()==6,"Incorrect size");
 
   CHECK( named_enum::size<Baz1>( ) == 3 );
-  CHECK( named_enum::size<Baz2>( ) == 3 );
-  CHECK( named_enum::size<Baz3>( ) == 3 );
-  CHECK( named_enum::size<Baz4>( ) == 3 );
+  CHECK( named_enum::size<Baz2>( ) == 4 );
+  CHECK( named_enum::size<Baz3>( ) == 5 );
+  CHECK( named_enum::size<Baz4>( ) == 6 );
 }
 
 MAKE_NAMED_ENUM_CLASS( Color, red,   green, blue );

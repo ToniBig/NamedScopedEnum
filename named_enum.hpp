@@ -56,6 +56,12 @@ constexpr size_t length( char const (&)[N] ){
   return N;
 }
 
+template<size_t N>
+constexpr bool has_trailing_comma( char const (&string)[N] ){
+  return string[N-2]==',';
+}
+
+
 template<std::size_t... I>
 constexpr std::array<string_t,sizeof...(I)> make_array( char * string,  char ** ids, std::index_sequence<I...>){
     return std::array<string_t,sizeof...(I)>{ids[I]...};
@@ -99,6 +105,8 @@ public:
 #define _MAKE_NAMED_ENUM_WITH_TYPE_IMPL(enum_name,enum_strictness,enum_type,...)       \
                                                                                        \
 static_assert(!named_enum::detail::empty(#__VA_ARGS__),"No enumerators provided");     \
+static_assert(!named_enum::detail::has_trailing_comma(#__VA_ARGS__),                   \
+                                               "Trailing comma is not supported");     \
                                                                                        \
 static_assert(named_enum::detail::count_character(#__VA_ARGS__,'=')==0,                \
   "Custom enumerators (=) are not supported");                                         \
